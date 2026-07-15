@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QUORUM — Route every task to the cheapest lane that still verifies — one model for the easy, a panel plus a judge for the hard.</title>
+<style>
+  :root{
+    --ink:#0A0D12; --panel:#11151d; --panel-2:#151b25; --line:#1e2733;
+    --text:#E6EDF3; --muted:#8B98A5; --faint:#5a6675;
+    --signal:#4CC2E0; --signal-dim:#2b7488; --coral:#FF6B5D; --amber:#F5B454;
+    --grid:#4CC2E012;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --maxw:1080px;
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --ink:#EEF3F1; --panel:#fff; --panel-2:#f4f8f6; --line:#dbe4df; --text:#0F1720; --muted:#4d5b57; --faint:#8695a0; --grid:#4CC2E01c; }
+  }
+  :root[data-theme="dark"]{ --ink:#0A0D12; --panel:#11151d; --panel-2:#151b25; --line:#1e2733; --text:#E6EDF3; --muted:#8B98A5; --faint:#5a6675; --grid:#4CC2E012; }
+  :root[data-theme="light"]{ --ink:#EEF3F1; --panel:#fff; --panel-2:#f4f8f6; --line:#dbe4df; --text:#0F1720; --muted:#4d5b57; --faint:#8695a0; --grid:#4CC2E01c; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--text);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:44px 44px;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  a{color:var(--signal);text-decoration:none}
+  h1,h2,h3{text-wrap:balance;line-height:1.12;margin:0}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--signal);font-weight:600}
+  code,pre{font-family:var(--mono)}
+  header.bar{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);background:color-mix(in srgb,var(--ink) 82%,transparent);border-bottom:1px solid var(--line)}
+  .bar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .mark{font-family:var(--mono);font-weight:700;letter-spacing:.14em;display:flex;align-items:center;gap:10px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--signal);animation:beat 2.4s ease-out infinite}
+  @keyframes beat{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--signal) 55%,transparent)}70%{box-shadow:0 0 0 10px transparent}100%{box-shadow:0 0 0 0 transparent}}
+  #themeToggle{font-family:var(--mono);font-size:12px;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer}
+  #themeToggle:hover{color:var(--text);border-color:var(--signal-dim)}
+  .hero{position:relative;padding:76px 0 34px;overflow:hidden}
+  .hero h1{font-family:var(--mono);font-size:clamp(40px,8vw,82px);font-weight:700;letter-spacing:-.01em}
+  .hero h1 .under{color:var(--signal)}
+  .lede{max-width:60ch;margin-top:22px;font-size:clamp(17px,2.4vw,21px)}
+  .sub{max-width:62ch;margin-top:14px;color:var(--muted)}
+  .cta{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
+  .btn{font-family:var(--mono);font-size:14px;padding:12px 20px;border-radius:8px;border:1px solid var(--signal-dim);cursor:pointer;display:inline-flex;gap:9px;align-items:center;color:var(--text)}
+  .btn.primary{background:var(--signal);color:#04130c;border-color:var(--signal);font-weight:600}
+  .btn:hover{transform:translateY(-1px)}
+  .tags{margin-top:56px;display:flex;gap:8px;flex-wrap:wrap}
+  .tag{font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:100px;padding:5px 12px;background:var(--panel)}
+  .tag::before{content:"› ";color:var(--signal)}
+  section{padding:60px 0;border-top:1px solid var(--line)}
+  .shead{display:flex;flex-direction:column;gap:12px;margin-bottom:34px;max-width:64ch}
+  .shead h2{font-size:clamp(24px,4vw,34px);font-weight:700;letter-spacing:-.01em}
+  .shead p{color:var(--muted);margin:0}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;transition:border-color .2s,transform .2s}
+  .card:hover{border-color:var(--signal-dim);transform:translateY(-3px)}
+  .card h3{font-family:var(--mono);font-size:17px;margin:0 0 8px;color:var(--text)}
+  .card p{color:var(--muted);font-size:14px;margin:0}
+  .card .n{font-family:var(--mono);font-size:12px;color:var(--signal);letter-spacing:.14em}
+  pre.code{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px 24px;overflow-x:auto;font-size:13.5px;line-height:1.9}
+  pre.code .c{color:var(--faint)} pre.code .k{color:var(--signal)}
+  footer{padding:40px 0 66px;border-top:1px solid var(--line);color:var(--faint);font-family:var(--mono);font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  @media (max-width:820px){.cards{grid-template-columns:1fr}}
+  @media (prefers-reduced-motion:reduce){.dot{animation:none}}
+</style>
+</head>
+<body>
+<header class="bar"><div class="wrap">
+  <div class="mark"><span class="dot"></span>QUORUM</div>
+  <button id="themeToggle" aria-label="Toggle color theme">◐ theme</button>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div class="eyebrow">MULTI-MODEL FUSION WITH A JUDGE</div>
+  <h1>The cheapest lane<br><span class="under">that still verifies.</span></h1>
+  <p class="lede">Route every task to the cheapest lane that still verifies — one model for the easy, a panel plus a judge for the hard.</p>
+  <p class="sub">QUORUM is a front door for LLM work that picks the cheapest lane that still gets the right answer. Trivial tasks go to a single model. Homogeneous batches run speculative batch-fusion — draft cheap, verify the whole block in one judge pass, re-work only what fails. Hard or high-stakes tasks get the full panel: an author drafts, a second model cross-watches and refines, and a judge does a final correctness-and-elevate pass. Deterministic checks (node --check for code) gate every lane so nothing ships unverified. Every model is a one-function adapter, so QUORUM is model-agnostic and runs $0 out of the box with a built-in echo model.</p>
+  <div class="cta">
+    <a class="btn primary" href="#start">▸ Quickstart</a>
+    <a class="btn" href="#">View on GitHub</a>
+  </div>
+  <div class="tags"><span class="tag">llm-fusion</span>
+    <span class="tag">multi-model</span>
+    <span class="tag">judge</span>
+    <span class="tag">adaptive-routing</span>
+    <span class="tag">model-agnostic</span>
+    <span class="tag">zero-deps</span></div>
+</div></div>
+
+<section><div class="wrap">
+  <div class="shead"><div class="eyebrow">what it does</div><h2>One front door, three lanes.</h2></div>
+  <div class="cards"><div class="card"><div class="n">01 / ROUTE</div><h3>Decide before you spend</h3><p>A fast heuristic — no LLM call — classifies each task by kind, length, and flags. Simple work never touches the panel; heavy work never gets under-served. You can force any lane, and a failed deterministic check auto-escalates to a stronger one.</p></div>
+    <div class="card"><div class="n">02 / FUSE</div><h3>A panel, then a judge</h3><p>The full lane drafts with an author, hands it to a second model to cross-watch and refine, then to a judge that must be at least as strong as the best single expert — and elevate from there. Batches take the speculative lane: one judge pass over the whole block.</p></div>
+    <div class="card"><div class="n">03 / VERIFY</div><h3>Nothing ships unchecked</h3><p>Code is run through node --check at every lane; a pass is a grounded accept, a fail is a concrete signal for a targeted re-draft. Deterministic gates mean cheap lanes stay honest and the judge is spent only where judgment is needed.</p></div></div>
+</div></section>
+
+<section id="start"><div class="wrap">
+  <div class="shead"><div class="eyebrow">quickstart</div><h2>Up and running in a clone.</h2>
+  <p>Every value comes from <code>.env</code>. Nothing here is tied to any account — bring your own.</p></div>
+  <pre class="code"><span class="c"># 1. no install needed — pure Node builtins; runs $0 with the built-in echo model</span>
+node lib/quorum.cjs "summarize the CAP theorem in two sentences"
+
+<span class="c"># 2. force a lane / set a kind</span>
+node lib/quorum.cjs --kind=code --full "write a debounce function with a cancel method"
+
+<span class="c"># 3. batch (spec-fusion lane) — one task per line</span>
+node lib/quorum.cjs --batch --task-file=tasks.txt --kind=code
+
+<span class="c"># 4. see the router pick lanes across a mixed set</span>
+node examples/demo.cjs
+
+<span class="c"># 5. plug in your own models (author / crossWatch / judge)</span>
+QUORUM_MODELS=./examples/models-echo.cjs node lib/quorum.cjs --full "design a rate limiter"</pre>
+</div></div></section>
+
+<footer><div class="wrap" style="display:flex;justify-content:space-between;width:100%;flex-wrap:wrap;gap:12px">
+  <span>QUORUM · delegate · spec-fusion · full-fusion</span><span>MIT · bring your own keys · $0 to run</span>
+</div></footer>
+
+<script>
+(function(){
+  var btn=document.getElementById('themeToggle');
+  btn.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var next=cur?(cur==='dark'?'light':'dark'):(window.matchMedia('(prefers-color-scheme: dark)').matches?'light':'dark');
+    document.documentElement.setAttribute('data-theme',next);
+  });
+})();
+</script>
+</body>
+</html>
