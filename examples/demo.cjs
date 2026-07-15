@@ -1,7 +1,7 @@
 'use strict';
 // demo.cjs — watch the router pick a lane per task (built-in echo model, no API key).
 // Run: node examples/demo.cjs
-const { optimize } = require('../lib/quorum.cjs');
+const { optimize } = require('../lib/fusion.cjs');
 
 const tasks = [
   { input: 'say hello to the team', kind: 'chat' },                 // -> delegate

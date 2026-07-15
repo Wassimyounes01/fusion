@@ -1,6 +1,6 @@
-# Contributing to QUORUM
+# Contributing to Fusion
 
-Thanks for your interest! QUORUM is MIT-licensed and built to be forked, extended, and
+Thanks for your interest! Fusion is MIT-licensed and built to be forked, extended, and
 dropped into your own stack.
 
 ## Ground rules

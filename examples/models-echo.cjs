@@ -1,16 +1,16 @@
 'use strict';
 /*
- * models-echo.cjs — a copyable QUORUM_MODELS adapter template.
+ * models-echo.cjs — a copyable FUSION_MODELS adapter template.
  *
- * QUORUM injects three roles through this module:
+ * Fusion injects three roles through this module:
  *   author(system, prompt, opts)      -> { text, model? }   // drafts the first solution
  *   crossWatch(system, prompt, opts)  -> { text, model? }   // critiques + refines a draft (optional; omit to reuse author)
  *   judge(system, prompt, opts)       -> { text, model? }   // final correctness + elevate pass
  *
- * `opts` includes { kind, max_tokens, timeout, ... }. Return the model's text; QUORUM handles
+ * `opts` includes { kind, max_tokens, timeout, ... }. Return the model's text; Fusion handles
  * routing, node --check gating, batching, and caching around you.
  *
- * Use it:  QUORUM_MODELS=./examples/models-echo.cjs node lib/quorum.cjs --full "design a rate limiter"
+ * Use it:  FUSION_MODELS=./examples/models-echo.cjs node lib/fusion.cjs --full "design a rate limiter"
  *
  * To wire a REAL provider, replace `call()` with an HTTP request to your model. A single
  * chat-completions call is enough for all three roles; give each a different model or temperature

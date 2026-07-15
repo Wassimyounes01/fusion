@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>QUORUM — Route every task to the cheapest lane that still verifies — one model for the easy, a panel plus a judge for the hard.</title>
+<title>Fusion — Route every task to the cheapest lane that still verifies — one model for the easy, a panel plus a judge for the hard.</title>
 <style>
   :root{
     --ink:#0A0D12; --panel:#11151d; --panel-2:#151b25; --line:#1e2733;
@@ -65,7 +65,7 @@
 </head>
 <body>
 <header class="bar"><div class="wrap">
-  <div class="mark"><span class="dot"></span>QUORUM</div>
+  <div class="mark"><span class="dot"></span>Fusion</div>
   <button id="themeToggle" aria-label="Toggle color theme">◐ theme</button>
 </div></header>
 
@@ -73,7 +73,7 @@
   <div class="eyebrow">MULTI-MODEL FUSION WITH A JUDGE</div>
   <h1>The cheapest lane<br><span class="under">that still verifies.</span></h1>
   <p class="lede">Route every task to the cheapest lane that still verifies — one model for the easy, a panel plus a judge for the hard.</p>
-  <p class="sub">QUORUM is a front door for LLM work that picks the cheapest lane that still gets the right answer. Trivial tasks go to a single model. Homogeneous batches run speculative batch-fusion — draft cheap, verify the whole block in one judge pass, re-work only what fails. Hard or high-stakes tasks get the full panel: an author drafts, a second model cross-watches and refines, and a judge does a final correctness-and-elevate pass. Deterministic checks (node --check for code) gate every lane so nothing ships unverified. Every model is a one-function adapter, so QUORUM is model-agnostic and runs $0 out of the box with a built-in echo model.</p>
+  <p class="sub">Fusion is a front door for LLM work that picks the cheapest lane that still gets the right answer. Trivial tasks go to a single model. Homogeneous batches run speculative batch-fusion — draft cheap, verify the whole block in one judge pass, re-work only what fails. Hard or high-stakes tasks get the full panel: an author drafts, a second model cross-watches and refines, and a judge does a final correctness-and-elevate pass. Deterministic checks (node --check for code) gate every lane so nothing ships unverified. Every model is a one-function adapter, so Fusion is model-agnostic and runs $0 out of the box with a built-in echo model.</p>
   <div class="cta">
     <a class="btn primary" href="#start">▸ Quickstart</a>
     <a class="btn" href="#">View on GitHub</a>
@@ -97,23 +97,23 @@
   <div class="shead"><div class="eyebrow">quickstart</div><h2>Up and running in a clone.</h2>
   <p>Every value comes from <code>.env</code>. Nothing here is tied to any account — bring your own.</p></div>
   <pre class="code"><span class="c"># 1. no install needed — pure Node builtins; runs $0 with the built-in echo model</span>
-node lib/quorum.cjs "summarize the CAP theorem in two sentences"
+node lib/fusion.cjs "summarize the CAP theorem in two sentences"
 
 <span class="c"># 2. force a lane / set a kind</span>
-node lib/quorum.cjs --kind=code --full "write a debounce function with a cancel method"
+node lib/fusion.cjs --kind=code --full "write a debounce function with a cancel method"
 
 <span class="c"># 3. batch (spec-fusion lane) — one task per line</span>
-node lib/quorum.cjs --batch --task-file=tasks.txt --kind=code
+node lib/fusion.cjs --batch --task-file=tasks.txt --kind=code
 
 <span class="c"># 4. see the router pick lanes across a mixed set</span>
 node examples/demo.cjs
 
 <span class="c"># 5. plug in your own models (author / crossWatch / judge)</span>
-QUORUM_MODELS=./examples/models-echo.cjs node lib/quorum.cjs --full "design a rate limiter"</pre>
+FUSION_MODELS=./examples/models-echo.cjs node lib/fusion.cjs --full "design a rate limiter"</pre>
 </div></div></section>
 
 <footer><div class="wrap" style="display:flex;justify-content:space-between;width:100%;flex-wrap:wrap;gap:12px">
-  <span>QUORUM · delegate · spec-fusion · full-fusion</span><span>MIT · bring your own keys · $0 to run</span>
+  <span>Fusion · delegate · spec-fusion · full-fusion</span><span>MIT · bring your own keys · $0 to run</span>
 </div></footer>
 
 <script>

@@ -1,12 +1,12 @@
 {
-  "name": "quorum",
+  "name": "fusion",
   "version": "1.0.0",
   "description": "Route every task to the cheapest lane that still verifies — one model for the easy, a panel plus a judge for the hard.",
   "license": "MIT",
   "type": "commonjs",
   "scripts": {
-    "test": "node lib/quorum.cjs \"say hello\" >/dev/null && node lib/quorum.cjs --kind=code \"write a slugify function\" >/dev/null && node examples/demo.cjs >/dev/null && echo ok",
-    "check": "node --check lib/quorum.cjs && node --check lib/spec-fusion.cjs && node --check lib/models.cjs && node --check lib/echo-model.cjs && node --check examples/demo.cjs && node --check examples/models-echo.cjs && echo ok"
+    "test": "node lib/fusion.cjs \"say hello\" >/dev/null && node lib/fusion.cjs --kind=code \"write a slugify function\" >/dev/null && node examples/demo.cjs >/dev/null && echo ok",
+    "check": "node --check lib/fusion.cjs && node --check lib/spec-fusion.cjs && node --check lib/models.cjs && node --check lib/echo-model.cjs && node --check examples/demo.cjs && node --check examples/models-echo.cjs && echo ok"
   },
   "keywords": [
     "llm",
