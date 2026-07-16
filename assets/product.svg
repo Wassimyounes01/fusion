@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" role="img" aria-label="Fusion — product shot">
+  <defs>
+    <style>
+      .t { font-family: ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace; font-size: 17px; }
+      .title { font-family: ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace; font-size: 14px; fill: #7D8590; }
+    </style>
+    <clipPath id="panel"><rect x="1" y="1" width="1198" height="478" rx="14"/></clipPath>
+  </defs>
+  <rect x="1" y="1" width="1198" height="478" rx="14" fill="#0D1117" stroke="#30363D" stroke-width="1.5"/>
+  <g clip-path="url(#panel)">
+    <path d="M1,15 a14,14 0 0 1 14,-14 h1170 a14,14 0 0 1 14,14 v41 h-1198 z" fill="#161B22"/>
+    <line x1="1" y1="56" x2="1199" y2="56" stroke="#30363D" stroke-width="1"/>
+    <circle cx="1060" cy="30" r="300" fill="#4CC2E0" opacity="0.045"/>
+    <circle cx="30" cy="28" r="7" fill="#FF5F57"/>
+    <circle cx="54" cy="28" r="7" fill="#FEBC2E"/>
+    <circle cx="78" cy="28" r="7" fill="#28C840"/>
+    <text x="600" y="33" text-anchor="middle" class="title">fusion — three lanes, one judge</text>
+    <rect x="0" y="56" width="4" height="424" fill="#4CC2E0" opacity="0.85"/>
+    <text x="36" y="106" class="t"><tspan fill="#7D8590">$ </tspan><tspan fill="#4CC2E0" font-weight="600">node examples/demo.cjs</tspan></text>
+    <text x="36" y="136" class="t" fill="#C9D1D9">• "say hello to the team"</text>
+    <text x="36" y="166" class="t" fill="#7D8590">  lane=delegate  kind=chat  models=echo</text>
+    <text x="36" y="196" class="t" fill="#C9D1D9">• "write a debounce function with a cancel method"</text>
+    <text x="36" y="226" class="t" fill="#7D8590">  lane=delegate  kind=code  →  node --check: pass</text>
+    <text x="36" y="256" class="t" fill="#C9D1D9">• "refactor the payments module for idempotency"</text>
+    <text x="36" y="286" class="t" fill="#4CC2E0" font-weight="600">  lane=FULL FUSION  author → cross-watch → judge</text>
+    <text x="36" y="316" class="t" fill="#3FB950">  judge: floor met · elevated · accepted</text>
+    <text x="36" y="376" class="t"><tspan fill="#7D8590">$ </tspan><tspan fill="#4CC2E0" font-weight="600">node lib/fusion.cjs --batch --task-file=tasks.txt --kind=code</tspan></text>
+    <text x="36" y="406" class="t" fill="#C9D1D9">spec-fusion: 12 drafts → 7 early-accepted (node --check) → 1 batched judge call</text>
+    <text x="36" y="436" class="t" fill="#3FB950">12/12 verified · judge calls: 1</text>
+  </g>
+</svg>

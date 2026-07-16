@@ -83,6 +83,14 @@ FUSION_MODELS=./examples/models-echo.cjs node lib/fusion.cjs --full "design a ra
 
 ---
 
+## See it run
+
+<p align="center">
+  <img src="assets/product.svg" alt="Fusion — product shot" width="100%">
+</p>
+
+---
+
 ## Repository layout
 
 ```
@@ -97,6 +105,20 @@ fusion/
 │   └── models-echo.cjs     ← a copyable real-model adapter template
 └── data/                   ← spec-fusion draft cache (gitignored, auto-created)
 ```
+
+---
+
+## Concepts
+
+| Concept | Meaning |
+|---|---|
+| **Lane** | One of three routes a task can take: DELEGATE (one model call), SPEC-FUSION (batched drafts, one judge pass), FULL FUSION (author → cross-watch → judge). |
+| **delegateEligible()** | The zero-LLM heuristic that classifies a task by kind, length, and flags — routing happens before any money is spent. |
+| **Cross-watch** | A second model that critiques and refines the author's draft before the judge sees it. |
+| **Judge (floor-then-elevate)** | The final pass must be at least as strong as the best single draft — the floor — and then improve on it. A judge, not a vote. |
+| **Early-accept** | In the batch lane, code that passes node --check is accepted with no judge call — deterministic checks amortize the expensive seat. |
+| **One-way escalation** | A failed gate always falls through to a stronger lane, never sideways or back — nothing ships unverified. |
+| **Echo model** | The deterministic built-in { author, crossWatch, judge } that runs every lane with no API key — for tests, CI, and kicking the tires. |
 
 ---
 
